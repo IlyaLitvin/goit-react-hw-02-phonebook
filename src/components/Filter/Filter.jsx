@@ -1,9 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
+import PropTypes from "prop-types";
+import styles from "./Filter.module.css";
 
 const FilterName = function ({ filterRender, filter }) {
   return (
     <div>
-      <label>Find contacts by name</label>
+      <label htmlFor="name" className={styles.contactFormLabel}>
+        Find contacts by name
+      </label>
       <input
         type="text"
         value={filter}
@@ -12,4 +16,10 @@ const FilterName = function ({ filterRender, filter }) {
     </div>
   );
 };
+
+FilterName.propTypes = {
+  filterRender: PropTypes.func.isRequired,
+  filter: PropTypes.string,
+};
+
 export default FilterName;

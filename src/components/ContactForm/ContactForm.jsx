@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
+import styles from "./ContactForm.module.css";
 
 const INITIAL_STATE = {
   name: "",
@@ -18,7 +18,6 @@ export default class ContactForm extends Component {
   };
   handleSubmit = (event) => {
     event.preventDefault();
-    const { name } = this.state;
     this.props.addContact({ ...this.state });
   };
 
@@ -26,17 +25,35 @@ export default class ContactForm extends Component {
     const { name, number } = this.state;
     return (
       <>
-        <form action="submit" onSubmit={this.handleSubmit}>
-          <label htmlFor="name" placeholder="name" value={name}>
+        <form
+          action="submit"
+          onSubmit={this.handleSubmit}
+          className={styles.contactForm}
+        >
+          <label
+            htmlFor="name"
+            placeholder="name"
+            value={name}
+            className={styles.contactFormLabel}
+          >
             Name
           </label>
           <input type="text" name="name" onChange={this.handleChange} />
 
-          <label htmlFor="number" placeholder="number" value={number}>
+          <label
+            htmlFor="number"
+            placeholder="number"
+            value={number}
+            className={styles.contactFormLabel}
+          >
             Number
           </label>
           <input type="tel" name="number" onChange={this.handleChange} />
-          <input type="submit" value="Add contact" />
+          <input
+            type="submit"
+            value="Add contact"
+            className={styles.contactFormBtn}
+          />
         </form>
       </>
     );

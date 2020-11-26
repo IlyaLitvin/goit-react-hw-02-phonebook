@@ -15,10 +15,16 @@ export default class App extends Component {
   };
 
   toAddContact = (el) => {
-    this.setState((prev) => {
-      const updateState = [...prev.contacts, el];
-      return { contacts: updateState };
-    });
+    const { contacts } = this.state;
+    const rule = contacts.some((contact) => contact.name === el.name);
+    if (rule) {
+      alert(`${el.name} is already declared`, null, 2);
+    } else if (el.name.length >= 1) {
+      this.setState((prev) => {
+        const updateState = [...prev.contacts, el];
+        return { contacts: updateState };
+      });
+    }
   };
   filterRender = (filter) => {
     this.setState({ filter });
@@ -29,6 +35,17 @@ export default class App extends Component {
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
   }
+  toDeleteContact = (id) => {
+    const { contacts } = this.state;
+    const obj = contacts.find((el) => el.id === id);
+    const index = contacts.indexOf(obj);
+    this.setState((prevState) => ({
+      contacts: [
+        ...prevState.contacts.slice(0, index),
+        ...prevState.contacts.slice(index + 1),
+      ],
+    }));
+  };
   render() {
     const { contacts, filter } = this.state;
     const filterText = this.filtresTask();
@@ -41,11 +58,7 @@ export default class App extends Component {
         {contacts.length > 1 && (
           <Filter value={filter} filterRender={this.filterRender} />
         )}
-        <ul>
-          {filterText.map((el) => {
-            return <ContactList key={el.id} list={el} />;
-          })}
-        </ul>
+        <ContactList list={filterText} deleteList={this.toDeleteContact} />
       </div>
     );
   }
